@@ -6,10 +6,22 @@
   "types": "src/index.ts",
   "files": ["src", "README.md"],
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
     "@z-os/ui": "4.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@types/react": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "jsdom": "^23.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",
