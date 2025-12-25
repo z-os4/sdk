@@ -1,6 +1,12 @@
 # zOS SDK
 
+[![npm version](https://img.shields.io/npm/v/@z-os/sdk.svg)](https://www.npmjs.com/package/@z-os/sdk)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://z-os4.github.io/sdk/)
+[![CI](https://github.com/z-os4/sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/z-os4/sdk/actions/workflows/ci.yml)
+
 The official SDK for building zOS applications. Create native-feeling apps that integrate seamlessly with the zOS desktop environment.
+
+**[📚 Full Documentation](https://z-os4.github.io/sdk/)**
 
 ## Quick Start
 
