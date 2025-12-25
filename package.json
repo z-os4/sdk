@@ -1,6 +1,6 @@
 {
   "name": "@z-os/sdk",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "zOS SDK - Build native apps for zOS desktop environment",
   "main": "src/index.ts",
   "types": "src/index.ts",
