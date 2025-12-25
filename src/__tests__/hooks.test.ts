@@ -23,34 +23,34 @@ describe('SDK Hooks', () => {
   describe('useStorage', () => {
     it('should store and retrieve values', async () => {
       const { useStorage } = await import('../hooks/useStorage');
-      const { result } = renderHook(() => useStorage('test-app'));
+      const { result } = renderHook(() => useStorage({ namespace: 'test-app' }));
 
       await act(async () => {
-        await result.current.set('key1', 'value1');
+        result.current.set('key1', 'value1');
       });
 
-      const value = await result.current.get('key1');
+      const value = result.current.get('key1');
       expect(value).toBe('value1');
     });
 
     it('should return null for non-existent keys', async () => {
       const { useStorage } = await import('../hooks/useStorage');
-      const { result } = renderHook(() => useStorage('test-app'));
+      const { result } = renderHook(() => useStorage({ namespace: 'test-app' }));
 
-      const value = await result.current.get('nonexistent');
+      const value = result.current.get('nonexistent');
       expect(value).toBeNull();
     });
 
     it('should remove values', async () => {
       const { useStorage } = await import('../hooks/useStorage');
-      const { result } = renderHook(() => useStorage('test-app'));
+      const { result } = renderHook(() => useStorage({ namespace: 'test-app' }));
 
       await act(async () => {
-        await result.current.set('key1', 'value1');
-        await result.current.remove('key1');
+        result.current.set('key1', 'value1');
+        result.current.remove('key1');
       });
 
-      const value = await result.current.get('key1');
+      const value = result.current.get('key1');
       expect(value).toBeNull();
     });
   });
@@ -66,7 +66,7 @@ describe('SDK Hooks', () => {
       const { result } = renderHook(() => useClipboard());
 
       await act(async () => {
-        await result.current.copy('test text');
+        await result.current.writeText('test text');
       });
 
       expect(mockWriteText).toHaveBeenCalledWith('test text');
@@ -79,7 +79,8 @@ describe('SDK Hooks', () => {
       const { result } = renderHook(() => useNative());
 
       expect(result.current.isNative).toBe(false);
-      expect(result.current.hasNotifications).toBe(true); // Browser has Notification API
+      // In jsdom, Notification may not be available, but clipboard should be
+      expect(result.current.hasClipboard).toBe(true);
     });
 
     it('should provide fallback for file operations', async () => {

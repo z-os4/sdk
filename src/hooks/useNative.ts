@@ -75,8 +75,10 @@ export function useNative(): UseNativeReturn {
   // File System
   const readFile = useCallback(async (path: string): Promise<string> => {
     if (window.__TAURI__) {
-      const { readTextFile } = await import('@tauri-apps/plugin-fs');
-      return readTextFile(path);
+      // Dynamic import - only available at runtime in Tauri
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-fs' as any);
+      return mod.readTextFile(path);
     }
     // Browser fallback: use localStorage or IndexedDB
     return localStorage.getItem(`zos:file:${path}`) || '';
@@ -84,8 +86,9 @@ export function useNative(): UseNativeReturn {
 
   const writeFile = useCallback(async (path: string, content: string): Promise<void> => {
     if (window.__TAURI__) {
-      const { writeTextFile } = await import('@tauri-apps/plugin-fs');
-      await writeTextFile(path, content);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-fs' as any);
+      await mod.writeTextFile(path, content);
       return;
     }
     // Browser fallback
@@ -95,8 +98,9 @@ export function useNative(): UseNativeReturn {
   // Notifications
   const notify = useCallback(async (title: string, body?: string): Promise<void> => {
     if (window.__TAURI__) {
-      const { sendNotification } = await import('@tauri-apps/plugin-notification');
-      await sendNotification({ title, body });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-notification' as any);
+      await mod.sendNotification({ title, body });
       return;
     }
     // Browser fallback
@@ -113,8 +117,9 @@ export function useNative(): UseNativeReturn {
   // Clipboard
   const copyToClipboard = useCallback(async (text: string): Promise<void> => {
     if (window.__TAURI__) {
-      const { writeText } = await import('@tauri-apps/plugin-clipboard-manager');
-      await writeText(text);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-clipboard-manager' as any);
+      await mod.writeText(text);
       return;
     }
     await navigator.clipboard.writeText(text);
@@ -122,8 +127,9 @@ export function useNative(): UseNativeReturn {
 
   const readFromClipboard = useCallback(async (): Promise<string> => {
     if (window.__TAURI__) {
-      const { readText } = await import('@tauri-apps/plugin-clipboard-manager');
-      return await readText() || '';
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-clipboard-manager' as any);
+      return await mod.readText() || '';
     }
     return navigator.clipboard.readText();
   }, []);
@@ -131,8 +137,9 @@ export function useNative(): UseNativeReturn {
   // Dialogs
   const showOpenDialog = useCallback(async (options?: { multiple?: boolean; directory?: boolean }): Promise<string[]> => {
     if (window.__TAURI__) {
-      const { open } = await import('@tauri-apps/plugin-dialog');
-      const result = await open({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-dialog' as any);
+      const result = await mod.open({
         multiple: options?.multiple,
         directory: options?.directory,
       });
@@ -154,8 +161,9 @@ export function useNative(): UseNativeReturn {
 
   const showSaveDialog = useCallback(async (options?: { defaultPath?: string }): Promise<string | null> => {
     if (window.__TAURI__) {
-      const { save } = await import('@tauri-apps/plugin-dialog');
-      return save({ defaultPath: options?.defaultPath });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-dialog' as any);
+      return mod.save({ defaultPath: options?.defaultPath });
     }
     // Browser fallback: prompt for filename
     return prompt('Save as:', options?.defaultPath || 'untitled.txt');
@@ -164,8 +172,9 @@ export function useNative(): UseNativeReturn {
   // Shell
   const openExternal = useCallback(async (url: string): Promise<void> => {
     if (window.__TAURI__) {
-      const { open } = await import('@tauri-apps/plugin-shell');
-      await open(url);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mod = await import('@tauri-apps/plugin-shell' as any);
+      await mod.open(url);
       return;
     }
     window.open(url, '_blank');

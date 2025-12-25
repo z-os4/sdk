@@ -4,7 +4,10 @@
   "description": "zOS SDK - Build native apps for zOS desktop environment",
   "main": "src/index.ts",
   "types": "src/index.ts",
-  "files": ["src", "README.md"],
+  "files": [
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,6 +20,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
+    "@types/node": "^25.0.3",
     "@types/react": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.0",
     "jsdom": "^23.0.0",
@@ -24,11 +28,17 @@
     "vitest": "^1.0.0"
   },
   "peerDependencies": {
+    "@hanzo/ui": "^1.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "@hanzo/ui": "^1.0.0"
+    "react-dom": "^18.0.0"
   },
-  "keywords": ["zos", "sdk", "desktop", "macos", "hanzo"],
+  "keywords": [
+    "zos",
+    "sdk",
+    "desktop",
+    "macos",
+    "hanzo"
+  ],
   "author": "Hanzo AI",
   "license": "MIT",
   "repository": {

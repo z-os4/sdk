@@ -6,8 +6,8 @@
  */
 
 import React, { createContext, useContext, ReactNode, useMemo } from 'react';
-import ZWindow from '@/components/ZWindow';
-import { AppManifest, WindowType, AppContext } from './types';
+import { ZWindow } from './ZWindow';
+import { AppManifest, WindowType, AppContext } from '../types';
 import { useApp } from '../hooks/useApp';
 import { useNotifications } from '../hooks/useNotifications';
 import { useStorage } from '../hooks/useStorage';
