@@ -10,3 +10,4 @@ export { useStorage } from './useStorage';
 export { useFileSystem } from './useFileSystem';
 export { useClipboard } from './useClipboard';
 export { useKeyboard } from './useKeyboard';
+export { useNative } from './useNative';
