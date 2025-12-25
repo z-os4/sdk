@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zOS SDK Documentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+  <nav class="bg-gray-800/50 backdrop-blur-xl border-b border-gray-700 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">🔧</span>
+        <span class="font-bold text-xl">zOS SDK</span>
+        <span class="text-gray-400 text-sm">v4.2.0</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#installation" class="text-gray-300 hover:text-white">Installation</a>
+        <a href="#api" class="text-gray-300 hover:text-white">API</a>
+        <a href="#examples" class="text-gray-300 hover:text-white">Examples</a>
+        <a href="https://github.com/z-os4/sdk" class="text-gray-300 hover:text-white">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="py-20 px-4 text-center">
+    <h1 class="text-5xl font-bold mb-4">
+      <span class="gradient-text">zOS SDK</span>
+    </h1>
+    <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
+      Build native apps for the zOS desktop environment. TypeScript-first with full type safety.
+    </p>
+    <div class="flex justify-center gap-4">
+      <a href="#installation" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg font-medium">
+        Get Started
+      </a>
+      <a href="https://github.com/z-os4/sdk" class="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg font-medium">
+        View on GitHub
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 pb-20">
+    <section id="installation" class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Installation</h2>
+      <pre class="bg-gray-800 rounded-lg p-4 overflow-x-auto"><code class="language-bash">npm install @z-os/sdk</code></pre>
+    </section>
+
+    <section id="api" class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">API Reference</h2>
+
+      <div class="space-y-8">
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-2">AppManifest</h3>
+          <p class="text-gray-400 mb-4">Define your app's metadata and capabilities.</p>
+          <pre class="bg-gray-900 rounded-lg p-4 overflow-x-auto"><code class="language-typescript">interface AppManifest {
+  id: string;           // Unique app identifier (e.g., "ai.hanzo.myapp")
+  name: string;         // Display name
+  version: string;      // Semantic version (e.g., "1.0.0")
+  description: string;  // Short description
+  icon: string;         // Emoji or icon URL
+  category: AppCategory;
+  author: string;
+  permissions: Permission[];
+}</code></pre>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-2">useApp()</h3>
+          <p class="text-gray-400 mb-4">React hook for accessing app context and system APIs.</p>
+          <pre class="bg-gray-900 rounded-lg p-4 overflow-x-auto"><code class="language-typescript">import { useApp } from '@z-os/sdk';
+
+function MyApp() {
+  const { manifest, close, minimize, maximize } = useApp();
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{manifest.name}&lt;/h1&gt;
+      &lt;button onClick={close}&gt;Close&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-2">useFileSystem()</h3>
+          <p class="text-gray-400 mb-4">Access the virtual file system. Requires 'storage' permission.</p>
+          <pre class="bg-gray-900 rounded-lg p-4 overflow-x-auto"><code class="language-typescript">import { useFileSystem } from '@z-os/sdk';
+
+function FileManager() {
+  const fs = useFileSystem();
+
+  const saveFile = async () => {
+    await fs.writeFile('/Documents/notes.txt', 'Hello World');
+  };
+
+  const readFile = async () => {
+    const content = await fs.readFile('/Documents/notes.txt');
+    console.log(content);
+  };
+}</code></pre>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-2">useNotifications()</h3>
+          <p class="text-gray-400 mb-4">Send system notifications. Requires 'notifications' permission.</p>
+          <pre class="bg-gray-900 rounded-lg p-4 overflow-x-auto"><code class="language-typescript">import { useNotifications } from '@z-os/sdk';
+
+function NotifyButton() {
+  const { send } = useNotifications();
+
+  const notify = () => {
+    send({
+      title: 'Download Complete',
+      body: 'Your file has been downloaded.',
+      icon: '📥'
+    });
+  };
+}</code></pre>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-2">Categories</h3>
+          <p class="text-gray-400 mb-4">Available app categories for the App Store.</p>
+          <pre class="bg-gray-900 rounded-lg p-4 overflow-x-auto"><code class="language-typescript">type AppCategory =
+  | 'productivity'   // Notes, Calendar, etc.
+  | 'utilities'      // Calculator, Clock, etc.
+  | 'entertainment'  // Music, Photos, Games
+  | 'developer'      // Terminal, IDE, etc.
+  | 'system';        // Preferences, App Store</code></pre>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-2">Permissions</h3>
+          <p class="text-gray-400 mb-4">Available permissions your app can request.</p>
+          <pre class="bg-gray-900 rounded-lg p-4 overflow-x-auto"><code class="language-typescript">type Permission =
+  | 'storage'       // Read/write files
+  | 'network'       // Make network requests
+  | 'notifications' // Send notifications
+  | 'clipboard'     // Access clipboard
+  | 'camera'        // Access camera
+  | 'microphone'    // Access microphone
+  | 'location'      // Access location
+  | 'filesystem'    // Full filesystem access
+  | 'shell'         // Execute shell commands
+  | 'system';       // System-level access</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="examples" class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Examples</h2>
+
+      <div class="bg-gray-800 rounded-lg p-6">
+        <h3 class="text-xl font-semibold mb-4">Complete App Example</h3>
+        <pre class="bg-gray-900 rounded-lg p-4 overflow-x-auto"><code class="language-typescript">import React, { useState } from 'react';
+import { createApp, useApp } from '@z-os/sdk';
+
+const manifest = {
+  id: 'ai.hanzo.counter',
+  name: 'Counter',
+  version: '1.0.0',
+  description: 'A simple counter app',
+  icon: '🔢',
+  category: 'utilities' as const,
+  author: 'Hanzo AI',
+  permissions: []
+};
+
+function CounterApp() {
+  const { close } = useApp();
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;div className="p-4 h-full flex flex-col items-center justify-center"&gt;
+      &lt;h1 className="text-6xl font-bold mb-8"&gt;{count}&lt;/h1&gt;
+      &lt;div className="flex gap-4"&gt;
+        &lt;button
+          onClick={() => setCount(c => c - 1)}
+          className="px-6 py-3 bg-red-500 rounded-lg"
+        &gt;
+          -1
+        &lt;/button&gt;
+        &lt;button
+          onClick={() => setCount(c => c + 1)}
+          className="px-6 py-3 bg-green-500 rounded-lg"
+        &gt;
+          +1
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default createApp(manifest, CounterApp);</code></pre>
+      </div>
+    </section>
+
+    <section class="text-center py-12 border-t border-gray-700">
+      <h2 class="text-2xl font-bold mb-4">Related Packages</h2>
+      <div class="flex justify-center gap-4 flex-wrap">
+        <a href="https://z-os4.github.io/ui" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">@z-os/ui</a>
+        <a href="https://z-os4.github.io/apps" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">@z-os/apps</a>
+        <a href="https://z-os4.github.io/desktop" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg">@z-os/desktop</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 py-8 text-center text-gray-400">
+    <p>Built by <a href="https://hanzo.ai" class="text-indigo-400 hover:text-indigo-300">Hanzo AI</a></p>
+    <p class="mt-2">
+      <a href="https://github.com/z-os4" class="hover:text-white">GitHub</a>
+      <span class="mx-2">•</span>
+      <a href="https://npmjs.com/org/z-os" class="hover:text-white">npm</a>
+    </p>
+  </footer>
+
+  <script>hljs.highlightAll();</script>
+</body>
+</html>
